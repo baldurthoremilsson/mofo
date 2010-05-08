@@ -1,0 +1,372 @@
+%%
+%%  Beinagrind fyrir Morpho handbók í LaTeX.
+%%  Til að keyra þetta gegnum LaTeX forritið
+%%  má t.d. nota pdflatex í cygwin með eftir-
+%%  farandi skipun í bash:
+%%
+%%       pdflatex handbok
+%%   eða (virkar líka í cmd):
+%%       bash -c 'pdflatex handbok'
+%%
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[icelandic]{babel}
+\usepackage[pdftex]{hyperref}
+%\usepackage{makeidx,smplindx,fancyhdr,graphicx,times,multicol,comment}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[rounded]{syntax}
+\newenvironment{repnull}[0]{%
+	\begin{stack}
+	\\
+	\begin{rep}
+}{%
+	\end{rep}
+	\end{stack}
+}
+\newenvironment{málrit}[1]{%
+	\par\noindent\begin{minipage}{\linewidth}\vspace{0.5em}\begin{quote}\noindent%
+	\hspace*{-2em}\synt{#1}:\hfill\par%
+	\noindent%
+	\begin{minipage}{\linewidth}\begin{syntdiag}%
+}{%
+	\end{syntdiag}\end{minipage}\end{quote}\end{minipage}%
+}
+
+\begin{document}
+\sloppy
+\title{Handbók fyrir X}
+\author{N. N.}
+\maketitle
+
+\begin{abstract}
+Útdráttur...
+\end{abstract}
+
+\tableofcontents
+
+\section{Inngangur}
+Mofo er forritunarmál sem þróað var í áfanganum Þýðendur í Háskóla Íslands vorið 2010.
+Það byggir á málinu Morpho (http://morpho.cs.hi.is) eftir Snorra Agnarsson, en sækir einnig nokkuð
+úr hugmyndafræði Python.
+Mofo er mjög frumstætt og takmarkað þegar að útfærslumöguleikum kemur, en tenging þess í Morpho eykur notagildi þess til muna.
+\section{Notkun og uppsetning}
+\section{Málfræði}
+\subsection{Frumeiningar málsins}
+\subsubsection{Athugasemdir}
+\subsubsection{Lykilorð}
+\subsection{Mállýsing}
+\section{Merking málsins}
+\subsection{Einingar og einingaraðgerðir}
+\subsection{Gildi}
+\subsection{Breytur}
+\subsection{Merking segða}
+\subsubsection{Heiltölusegð}
+\subsubsection{Fleytitölusegð}
+\subsubsection{Stafsegð}
+\subsubsection{Strengsegð}
+\subsubsection{Listasegð}
+\subsubsection{return-segð}
+\subsubsection{Röksegðir}
+\subsubsection{Kallsegð}
+\subsubsection{Tvíundaraðgerðir}
+\subsubsection{Einundaraðgerðir}
+\subsubsection{if-segð}
+\subsubsection{while-segð}
+\section{Til hliðsjónar ... hendið þessu eftir notkun}
+
+\subsection{Mállýsing með syntax pakkanum í LaTeX}
+
+Hér er eilítil mállýsing sniðsett með hjálp {\tt syntax} pakkans sem
+nota má í \LaTeX. Þið getið notað þessa aðferð, ef það hentar ykkur,
+til að skilgeina ykkar forritunarmál.
+
+\begin{grammar}
+<x> ::= <x> <y>
+	\alt <y> `x'
+\end{grammar}
+
+\subsection{Ýmis málrit með hjálp syntax pakkans í LaTeX}
+
+Hér eru nokkur málrit skilgreind með hjálp {\tt syntax} pakkans.
+Breytið þessu eftir þörfum, eða notið aðrar
+aðferðir ef það hentar ykkur betur.
+
+Finna má upplýsingar um {\tt syntax} pakkann
+\htmladdnormallinkfoot{á vefnum}{http://www.tug.org/texlive/Contents/live/texmf-dist/doc/latex/mdwtools/syntax.pdf}.
+
+Takið eftir að ráðlegt er að gera einhverjar breytingar hér,
+þó ekki væri til annars en að gera textalýsingar á merkingu
+einfaldari með tilliti til forgangs ýmissa málfyrirbæra.
+
+\begin{málrit}{id_list}
+	\begin{stack}
+	
+	\\
+		\begin{rep} <id> \\ `,' \end{rep}
+	\end{stack}
+\end{málrit}%
+
+\subsubsection{Program}
+
+\begin{málrit}{program}
+	\begin{repnull}
+		\begin{stack}
+			<string>
+			\begin{stack}
+				`=' <module>
+			\\
+				`=' <id> `in' <module>
+			\end{stack}
+		\\
+			<id> `=' <module>
+		\end{stack}
+		`;'
+	\end{repnull}
+\end{málrit}
+
+\subsubsection{Modules}
+
+\begin{málrit}{module}
+	\begin{rep}
+		\begin{repnull}
+			\begin{stack}
+				`-'
+			\\
+				`+'
+			\\
+				`!'
+			\end{stack}
+		\end{repnull}
+		\begin{stack}
+			<string>
+		\\
+			<id>
+		\\
+			`(' <module> `)'
+		\\
+			<textmodule>
+		\end{stack}
+	\\
+		\begin{stack}
+			`&'
+		\\
+			`+'
+		\\
+			`:'
+		\\
+			`*'
+		\end{stack}
+	\end{rep}
+\end{málrit}
+
+\begin{málrit}{textmodule}
+	`{' `{'
+	\begin{stack}
+	\\
+		\begin{rep}
+			<export> `;'
+		\end{rep}
+	\end{stack}
+	`}' `}'
+\end{málrit}
+
+\begin{málrit}{export}
+	\begin{stack}
+		<id>
+	\\
+		<op>
+	\end{stack}
+	`='
+	\begin{stack}
+		`fun' <id> `(' <id_list> `)'
+	\\
+		`fun' <op> `(' <id_list> `)'
+	\\
+		`fun' `(' <id_list> `)' <body>
+	\end{stack}
+\end{málrit}
+
+\subsubsection{Stofnar}
+\begin{málrit}{body}
+	`{' 
+	<decls>
+	\begin{repnull} <expr> `;' \end{repnull}
+	`}' 
+\end{málrit}
+
+\subsubsection{Skilgreiningar}
+\begin{málrit}{decls}
+	\begin{repnull}
+		\begin{stack}
+			`var' \begin{rep} <id> \\ `,' \end{rep} `;'
+		\\
+			`val' \begin{rep} <id> `=' <expr> \\ `,' \end{rep} `;'
+		\end{stack}
+	\end{repnull}
+\end{málrit}
+
+\subsubsection{Segðir}
+
+\begin{málrit}{expr}
+	\begin{rep}
+		<small_expr>
+	\\
+		\begin{stack}
+			<op>
+		\\
+			`&&'
+		\\
+			`||'
+		\end{stack}
+	\end{rep}
+\end{málrit}
+
+\begin{málrit}{small_expr}
+	\begin{stack}
+		<op> <small_expr>
+	\\
+		`(' expr `)'
+	\\
+		<id>
+	\\
+		<id> `=' <expr>
+	\\
+		<id> `('
+		\begin{repnull}
+			<expr>
+		\\
+			`,'
+		\end{repnull}
+		`)'
+	\\
+		`while' `(' expr `)' <body>
+	\\
+		`return' <expr>
+	\\
+		`if' `(' expr `)' <body> <if_rest>
+	\\
+		`['
+		\begin{repnull}
+			<expr>
+		\\
+			`,'
+		\end{repnull}
+		`]'
+	\\
+		<int>
+	\\
+		<float>
+	\\
+		<string>
+	\\
+		<char>
+	\\
+		`true'
+	\\
+		`false'
+	\\
+		`null'
+	\end{stack}
+\end{málrit}
+
+\begin{málrit}{if_rest}
+	\begin{repnull}
+		`elsif' `(' <expr> `)' <body>
+	\end{repnull}
+	\begin{stack}
+	\\
+		`else' <body>
+	\end{stack}
+\end{málrit}
+
+\subsubsection{Annar möguleiki}
+
+\begin{málrit}{expr}
+	\begin{stack}
+		`return' <expr>
+	\\
+		<id> `=' <expr>
+	\\
+		<or_expr>
+	\end{stack}
+\end{málrit}
+
+\begin{málrit}{or_expr}
+	\begin{rep}
+		<and_expr>
+	\\
+		`||'
+	\end{rep}
+\end{málrit}
+
+\begin{málrit}{and_expr}
+	\begin{rep}
+		<not_expr>
+	\\
+		`&&'
+	\end{rep}
+\end{málrit}
+
+\begin{málrit}{not_expr}
+	\begin{repnull}
+		`!'
+	\end{repnull}
+	<binop_expr>
+\end{málrit}
+
+\begin{málrit}{binop_expr}
+	\begin{rep}
+		<small_expr>
+	\\
+		<op>
+	\end{rep}
+\end{málrit}
+
+\begin{málrit}{small_expr}
+	\begin{stack}
+		<op> <small_expr>
+	\\
+		`(' expr `)'
+	\\
+		<id>
+		\begin{stack}
+		\\
+		`('
+		\begin{repnull}
+			<expr>
+		\\
+			`,'
+		\end{repnull}
+		`)'
+		\end{stack}
+	\\
+		`while' `(' expr `)' <body>
+	\\
+		`if' `(' expr `)' <body> <if_rest>
+	\\
+		`['
+		\begin{repnull}
+			<expr>
+		\\
+			`,'
+		\end{repnull}
+		`]'
+	\\
+		<int>
+	\\
+		<float>
+	\\
+		<string>
+	\\
+		<char>
+	\\
+		`true'
+	\\
+		`false'
+	\\
+		`null'
+	\end{stack}
+\end{málrit}
+
+\end{document}

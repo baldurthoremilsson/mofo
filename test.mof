@@ -1,0 +1,12 @@
+def main():
+    count = 1
+    while true:
+        if count < 10:
+            writeln(count)
+            count = count + 1
+            continue
+        else:
+            writeln("o-oh!")
+        break
+
+endmodule

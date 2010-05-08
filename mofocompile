@@ -1,0 +1,10 @@
+#!/bin/bash
+if [ ! -f $1.mof ]
+then
+	echo "Error: no file named $1.mof!"
+	exit
+fi
+
+./mofo $1.mof > $1.morpho
+java -jar morpho.jar -c --noasm $1.morpho
+rm $1.morpho

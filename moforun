@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -f $1.mexe ]
+then
+	java -jar morpho.jar $1
+else
+	echo "Error: no file named $1.mexe (did you forget to compile?)"
+fi
