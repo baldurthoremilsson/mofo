@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2010.5.7)  8 MAY 2010 23:15
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2010.5.9)  9 MAY 2010 02:27
 entering extended mode
  %&-line parsing enabled.
 **handbok.tex
@@ -378,6 +378,12 @@ LaTeX Info: Redefining \pageref on input line 36.
 \@outlinefile=\write3
 \openout3 = `handbok.out'.
 
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <20.74> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 41.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 41.
+ (/usr/share/texmf-texlive/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <14.4> on input line 41.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -386,7 +392,8 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10.95> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 42.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <17.28> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 46.
- (./handbok.toc
+
+(./handbok.toc
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -401,13 +408,10 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 \tf@toc=\write4
 \openout4 = `handbok.toc'.
 
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 58.
- (/usr/share/texmf-texlive/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 62.
- [2] [3]
+ [2]
+[3]
 Overfull \vbox (29.91353pt too high) has occurred while \output is active []
 
 
@@ -418,13 +422,13 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 113.
  [5] [6] [7] [8] (./handbok.aux) ) 
 Here is how much of TeX's memory you used:
- 3259 strings out of 95086
- 42221 string characters out of 1183256
- 106456 words of memory out of 1500000
- 6362 multiletter control sequences out of 10000+50000
- 47817 words of font info for 61 fonts, out of 1200000 for 2000
+ 3263 strings out of 95086
+ 42276 string characters out of 1183256
+ 107456 words of memory out of 1500000
+ 6365 multiletter control sequences out of 10000+50000
+ 50134 words of font info for 64 fonts, out of 1200000 for 2000
  28 hyphenation exceptions out of 8191
- 25i,26n,36p,222b,602s stack positions out of 5000i,500n,6000p,200000b,5000s
+ 25i,26n,36p,210b,602s stack positions out of 5000i,500n,6000p,200000b,5000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/bas
 e/8r.enc}</usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/shar
 e/texmf-texlive/fonts/type1/bluesky/latex-fonts/lcircle1.pfb></usr/share/texmf-
@@ -432,7 +436,7 @@ texlive/fonts/type1/bluesky/latex-fonts/line10.pfb></usr/share/texmf-texlive/fo
 nts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/time
 s/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/s
 hare/texmf-texlive/fonts/type1/urw/times/utmri8a.pfb>
-Output written on handbok.pdf (8 pages, 110622 bytes).
+Output written on handbok.pdf (8 pages, 110544 bytes).
 PDF statistics:
  254 PDF objects out of 1000 (max. 8388607)
  44 named destinations out of 1000 (max. 131072)
