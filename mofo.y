@@ -54,7 +54,6 @@ AsmCreator codegen;
 %token KEY_PASS
 %token KEY_IF
 %token KEY_ELSE
-%token KEY_IN
 %token KEY_WHILE
 %token KEY_BREAK
 %token KEY_CONTINUE

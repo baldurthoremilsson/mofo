@@ -56,7 +56,7 @@ BINOP2    :{OPCHAR}*
 BINOP1    [~\^\?]{OPCHAR}*
 INTEGER   {DIGIT}+
 DOUBLE    {DIGIT}+\.{DIGIT}+
-STRING    \"([^\"\\]|\\b|\\t|\\f|\\r|\\\"|\\\\|(\\[0-3][0-7][0-7])|\\[0-7][0-7]|\\[0-7])*\"
+STRING    \"([^\"\\]|\\b|\\t|\\n|\\f|\\r|\\\"|\\\\|(\\[0-3][0-7][0-7])|\\[0-7][0-7]|\\[0-7])*\"
 CHARACTER \'([^\'\\]|\\b|\\t|\\n|\\f|\\r|\\\'|\\\\|(\\[0-3][0-7][0-7])|(\\[0-7][0-7])|(\\[0-7]))\'
 
 COLON :
@@ -74,7 +74,6 @@ KEY_DEF def
 KEY_PASS pass
 KEY_IF if
 KEY_ELSE else
-KEY_IN in
 KEY_WHILE while
 KEY_BREAK break
 KEY_CONTINUE continue
@@ -142,12 +141,6 @@ WHITESPACE [\ \t\b\012]
     INDENTS;
     copy();
     return(KEY_ELSE);
-}
-
-{KEY_IN} {
-    INDENTS;
-    copy();
-    return(KEY_IN);
 }
 
 {KEY_WHILE} {
