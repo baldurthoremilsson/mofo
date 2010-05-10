@@ -1,0 +1,318 @@
+%%
+%%  Beinagrind fyrir Morpho handbók í LaTeX.
+%%  Til að keyra þetta gegnum LaTeX forritið
+%%  má t.d. nota pdflatex í cygwin með eftir-
+%%  farandi skipun í bash:
+%%
+%%       pdflatex handbok
+%%   eða (virkar líka í cmd):
+%%       bash -c 'pdflatex handbok'
+%%
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[icelandic]{babel}
+\usepackage[pdftex]{hyperref}
+%\usepackage{makeidx,smplindx,fancyhdr,graphicx,times,multicol,comment}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage[rounded]{syntax}
+\usepackage[pdftex]{graphicx}
+\newenvironment{repnull}[0]{%
+	\begin{stack}
+	\\
+	\begin{rep}
+}{%
+	\end{rep}
+	\end{stack}
+}
+\newenvironment{malrit}[1]{%
+	\par\noindent\begin{minipage}{\linewidth}\vspace{0.5em}\begin{quote}\noindent%
+	\hspace*{-2em}\synt{#1}:\hfill\par%
+	\noindent%
+	\begin{minipage}{\linewidth}\begin{syntdiag}%
+}{%
+	\end{syntdiag}\end{minipage}\end{quote}\end{minipage}%
+}
+
+\begin{document}
+\sloppy
+\title{Handbók fyrir Mofo}
+\author{Baldur Þór Emilsson}
+\maketitle
+\begin{center}
+\includegraphics{wallet.jpg}
+\end{center}
+\pagebreak
+
+\begin{abstract}
+Mofo er einföld útgáfa af forritunarmálinu Morpho. Það er mjög takmarkað en tenging þess við Morpho eykur notagildi þess til muna.
+\end{abstract}
+\pagebreak
+
+\tableofcontents
+\pagebreak
+
+\section{Inngangur}
+Mofo er forritunarmál sem þróað var í áfanganum Þýðendur í Háskóla Íslands vorið 2010.
+Það byggir á málinu Morpho (http://morpho.cs.hi.is) eftir Snorra Agnarsson, en sækir einnig nokkuð
+í hugmyndafræði Python.
+
+Mofo er mjög frumstætt og takmarkað þegar að útfærslumöguleikum kemur, en tenging þess við Morpho
+eykur notagildi þess til muna.
+\pagebreak
+
+\section{Notkun og uppsetning}
+Grunnkóða þýðandans má nálgast á http://notendur.hi.is/bthe1/mofo/mofolang.zip og með honum fylgja Bash skriftur fyrir
+þýðanda og keyrsluumhverfi. Í zip skránni er einnig að finna umhverfi fyrir Morpho, svo notandi þarf einungis Java
+til að keyra Mofo forrit. Java þarf að vera aðgengilegt í {\tt PATH} í skelinni.
+
+Mofo notar Flex lesgreini og Bison þáttara og er þýðandinn skrifaður í C++. Til að þýða hann á Linux er hægt að nota {\tt make} skipunina.
+Hún virkar eflaust líka á öðrun Unix stýrikerfum.
+
+Mofo kóði er geymdur í skrám sem enda á {\tt .mof}. Þær eru þýddar með skipuninni {\tt ./mofocompile test} fyrir skrána {\tt test.mof}.
+Þegar skráin hefur verið þýdd er hægt að keyra hana með {\tt ./moforun test}. Þetta á þó aðeins við um skrár sem hafa main-fall, en meira um það síðar.
+\pagebreak
+
+\section{Málfræði}
+\subsection{Frumeiningar málsins}
+\subsubsection{Athugasemdir}
+Engar athugasemdir eru útfærðar í Mofo.
+
+\subsubsection{Lykilorð}
+Lykilorðin eru {\tt def}, {\tt pass}, {\tt if}, {\tt else}, {\tt while}, {\tt break}, {\tt continue}, {\tt return}, {\tt and}, {\tt or}, {\tt true}, {\tt false}, {\tt not}, {\tt null}, {\tt endmodule}.
+
+\subsection{Sértákn}
+Í Mofo eru {\tt (} og {\tt )} sértákn sem afmarka viðfangslista í föllum. Einnig má nota þá í reiknisegðum til að hækka forgang.
+
+Hreiðrun í Mofo er táknuð með inndrætti, áður en hann hefst er táknið {\tt :} notað til að skilgreina að hreiðrun sé að hefjast.
+
+Stök í viðfangslistum falla eru aðgreind með kommu: {\tt ,}. Þetta á bæði við um skilgreiningu falls og kallsegðir.
+
+\subsection{Inndráttur}
+Stofn falla, if-segða og while-segða er skilgreindur með inndrætti. Fjögur stafabil tákna einn inndrátt, og má hann hvorki vera meiri né minni. Einnig er
+ekki hægt að nota tab-staf fyrir inndrátt. Þegar stofni lýkur færist inndrátturinn aftur á fyrra stig.
+
+Ekki þarf að passa upp á inndrátt í tómum línum. Þær mega innihalda eins mörg stafabil og tab-stafi eins og forritaranum þykir þurfa. Eins mega vera auðar línur á milli
+hverra annarra lína í málinu þar sem það þykir henta fyrir læsileika eða annað.
+
+\subsection{Mállýsing}
+\subsubsection{Grunneiningar}
+\synt{string}, \synt{char}, \synt{int}, \synt{double} og \synt{opname} eru eins og í Morpho.
+
+%% name
+\begin{malrit}{name}
+	\begin{rep}[b]
+		'a-zA-Z'
+		\\'a-zA-Z0-9_'
+	\end{rep}
+\end{malrit}
+
+%% literal
+\begin{malrit}{literal}
+	\begin{stack}
+		<char>
+		\\<string>
+		\\<int>
+		\\<double>
+		\\{\tt true}
+		\\{\tt false}
+		\\{\tt null}
+	\end{stack}
+\end{malrit}
+
+%% binop
+\begin{malrit}{binop}
+	\begin{stack}
+		<opname>
+		\\{\tt and}
+		\\{\tt or}
+	\end{stack}
+\end{malrit}
+
+%% newlines
+\begin{malrit}{newlines}
+	\begin{rep}[b]
+		newline
+	\end{rep}
+\end{malrit}
+
+\subsubsection{Forrit}
+%% program
+\begin{malrit}{program}
+	\begin{stack}
+		\\<newlines>
+	\end{stack}
+	\begin{rep}[b]
+		\\<function>
+	\end{rep}
+	{\tt endmodule}
+	\begin{stack}
+		\\<newlines>
+	\end{stack}
+\end{malrit}
+
+%% function
+\begin{malrit}{function}
+	{\tt def} <name> {\tt (}
+	\begin{stack}
+		\\
+		\begin{rep}
+			<name>
+			\\{\tt ,}
+		\end{rep}
+	\end{stack}
+	{\tt ):} <newlines> indent <body> dedent <newlines>
+\end{malrit}
+
+%% body
+\begin{malrit}{body}
+	\begin{rep}
+		\begin{stack}
+			<varassign>
+			\\<ifstatement>
+			\\<whileloop>
+			\\{\tt break}
+			\\{\tt continue}
+			\\{\tt pass}
+			\\<expressions>
+			\\{\tt return}
+				\begin{stack}
+					\\<expressions>
+				\end{stack}
+		\end{stack}
+		\\<newlines>
+	\end{rep}
+	<newlines>
+\end{malrit}
+
+%% varassign
+\begin{malrit}{varassign}
+	<name> {\tt =} <expressions>
+\end{malrit}
+
+%% ifstatement
+\begin{malrit}{ifstatement}
+	{\tt if} <expressions> {\tt :} <newlines> indent <body> dedent
+	\begin{rep}
+		{\tt else} <expressions> {\tt :} <newlines> indent <body> dedent
+	\end{rep}
+	\begin{stack}
+		\\{\tt else:} <newlines> indent <body> dedent
+	\end{stack}
+\end{malrit}
+
+%% whileloop
+\begin{malrit}{whileloop}
+	{\tt while} <epxressions> {\tt :} <newlines> indent <body> dedent
+\end{malrit}
+
+%% expressions
+\begin{malrit}{expressions}
+	\begin{rep}
+		<expression>
+		\\<binop>
+	\end{rep}
+\end{malrit}
+
+%% expression
+\begin{malrit}{expression}
+	\begin{stack}
+		{\tt not} <expression>
+		\\{\tt (} <expressions> {\tt )}
+		\\<name>
+		\\<functioncall>
+		\\<literal>
+	\end{stack}
+\end{malrit}
+
+%% functioncall
+\begin{malrit}{functioncall}
+	<name> {\tt (}
+	\begin{stack}
+		\\
+			\begin{rep}
+				<expressions>
+				\\{\tt ,}
+			\end{rep}
+	\end{stack}
+	{\tt ):}
+\end{malrit}
+\pagebreak
+
+\section{Merking málsins}
+\subsection{Einingar og einingaraðgerðir}
+Hver Mofo kóðaskrá samsvarar einni einingu í Morpho. Engin útfærsla er á tengingu við aðrar einingar aðrar en BASIS í Morpho, sem er sjálfgefin.
+Mofo skrár eru þó þýddar yfir í Morpho og hægt er að nota þær einingar sem úr Mofo koma í Morpho, þó notagildið sé takmarkað þar sem allar
+einingarnar eru tengdar við BASIS.
+
+Mofo kóðaskrá sem inniheldur {\tt main} fall er þýdd yfir í keyrsluhæfa Morpho skrá ({\tt .mexe}), en sé það ekki til staðar þýðist kóðinn yfir
+í {\tt .mmod} skrá sem hægt er að tengja við Morpho.
+
+\subsection{Gildi}
+Öll gildi í Mofo (heiltölur, fleytitölur, strengir, stafsegðir, {\tt true}, {\tt false} og {\tt null}) varpast yfir í samsvarandi gildi í Morpho.
+
+\subsubsection{Sanngildi}
+Segðir sem lesa sanngildi úr reiknisegð lesa {\tt false}, {\tt null} og tölugildið 0 sem ósatt, allt annað er satt.
+
+\subsection{Breytur}
+Ekki þarf að skilgreina breytur sérstaklega áður en þeim er gefið gildi. Engin tögun er heldur í Mofo, svo sama breyta getur innihaldið gildi af
+mismunandi tagi á mismunandi tíma.
+
+Dæmi um gildisveitingu er {\tt x = y}, þar sem {\tt x} er breytunafnið og {\tt y} er reiknisegð.
+
+\subsection{Merking segða}
+Heiltölur, fleytitölur, strengir, stafsegðir, {\tt true}, {\tt false} og {\tt null} virka eins og í Morpho.
+
+\subsubsection{pass-segðir}
+Í Mofo er {\tt pass} segðin svipuð NOOP í smalamáli og stakri semíkommu í Morpho. Hinsvegar er hún hunsuð við þýðingu svo engin aðgerð er framkvæmd af tölvunni
+þar sem hún kemur fyrir.
+
+\subsubsection{Reiknisegðir}
+Reiknisegðir eru þær segðir sem skila gildi í Mofo. Þær innihalda breytur, gildi, röksegðir, kallsegðir og tvíundarsegðir. Þegar allir liðir reiknisegðar
+hafa verið framkvæmdir fæst gildi hennar (nema þegar hoppað er yfir liði, sjá Röksegðir). Það gildi má nota við gildisveitingu breyta, sem viðfang í kallsegð
+eða sem viðfang í if- og while-segðir.
+
+\subsubsection{Listasegð}
+Engin listasegð er í Mofo, og ekki er hægt að byggja lista í því þar sem tvíundaraðgerðin sem notuð er til þess í Morpho er ekki aðgengileg úr Mofo.
+Ástæður þess eru raknar í hlutanum um tvíundaraðgerðir.
+
+\subsubsection{return-segð}
+Hægt er að nota lykilorðið {\tt return} til að ljúka keyrslu falls áður en stofni þess er lokið. Bæði getur það staðið eitt og sér, en einnig getur
+reiknisegð fylgt því í sömu línu, og þá lýkur keyrslu fallsins með þeirri segð.
+
+\subsubsection{Röksegðir}
+Röksegðir í Mofo skila annað hvort {\tt true} eða {\tt false} gildum. Tvíundaraðgerðirnar {\tt and} og {\tt or} eru útfærðar þar sem {\tt and} hefur hærri forgang,
+og eru þær báðar vinstri tengdar. Prefix einundaraðgerðin {\tt not} er einnig útfærð, og hefur hún hæstan forgang.
+
+Ef vinstri hlið {\tt or} segðar hefur sanngildið {\tt true} er hægri hlið hennar ekki keyrð. Á sama hátt er hægri hlið {\tt and} segðar ekki keyrð ef sanngildi
+vinstri segðar hennar er {\tt false}.
+
+\subsubsection{Kallsegð}
+Kalla má á föll í reiknisegðum. Skilagildi þeirra er gildið sem fæst úr síðustu segð þeirra, og ef aðeins eru {\tt pass} segðir í stofni fallsins er skilagildi þess
+óskilgreint. Viðföng falls eru reiknisegðir, svo stef á borð við {\tt f(g())} og {\tt f(a++b, c and d)} eru leyfileg.
+
+\subsubsection{Tvíundaraðgerðir}
+Tvíundaraðgerðir Mofo eru svipaðar tvíundaraðgerðum Morpho. Munurinn liggur helst í röksegðunum {\tt and} og {\tt or}, sem koma í stað segðanna {\tt \&\&} og {\tt ||}, og
+í þeirri breytingu að segðin {\tt :} er ekki leyfileg segð í Mofo. Það skýrst af því að táknið hefur málfræðilega merkingu og er því frátekið (sjá hlutann um sértákn að ofan).
+
+Tenging og forgangur er eins og í Morpho.
+
+\subsubsection{Einundaraðgerðir}
+Aðeins ein einundarsegð er útfærð í Mofo: {\tt not}. Henni er lýst í hlutanum um röksegðir hér að ofan.
+
+\subsubsection{if-segð}
+Í Mofo má nota if-segðir til að stýra keyrslu forrits. Þær hefjast á forminu {\tt if x:} þar sem {\tt x} er reiknisegð. Ef gildi hennar hefur sanngildið {\tt true} er stofn
+segðarinnar keyrður.
+
+Ef sanngildið er {\tt false} er stofninum sleppt, en möguleiki er á else-hluta þar á eftir. Hann getur einnig haft reiknisegð, og er þá á forminu {\tt else x:}. Raða má
+eins mörgum else-hlutum neðan við if-segð eins og þurfa þykir. Fyrsti else-hlutinn sem hefur reiknisegð með sanngildið {\tt true} er keyrður, og restinni sleppt. Bæta má
+við einum else-hluta neðst sem enga reiknisegð hefur, og er hann þá keyrður ef bæði if-hlutinn og öllum hinum else-hlutunum var sleppt.
+
+\subsubsection{while-segð}
+Mofo hefur while-segðir, og virka þær svipað og í Morpho. Þær eru á sniðinu {\tt while x:} þar sem {\tt x} er reiknisegð sem framkvæmd í hvert sinn sem ítra á í gegnum stofn
+while-segðarinnar. Ítrað er í gegnum while-segðina þangað til reiknisegðin hefur sannleiksgildið {\tt false}.
+
+Nota má {\tt break} til að hætta keyrslu while-segðar og halda áfram að keyra forritið frá þeim stað þar sem stofni hennar lýkur, og {\tt continue} segð til að hefja næstu ítrun
+áður en núverandi ítrun er lokið.
+
+\end{document}
